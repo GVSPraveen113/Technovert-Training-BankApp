@@ -6,7 +6,7 @@ namespace BankAccount
 	{
 		public class Account
 		{
-			public double balance=10000;
+			public double balance;
 			public Account(){ 
 				balance=10000.00;
 			}
