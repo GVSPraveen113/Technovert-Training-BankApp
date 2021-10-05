@@ -28,7 +28,10 @@ namespace Bank{
                         break;
                     case 6:
                         ATMFunctionality.ExitApplication();
-                        return;   
+                        return; 
+                    case 7:
+                        ATMFunctionality.ViewAllAccounts();  
+                        break;    
                     default:
                         Console.WriteLine("Invalid selection! Can't Proceed with this request");
                         Console.ReadLine(); 

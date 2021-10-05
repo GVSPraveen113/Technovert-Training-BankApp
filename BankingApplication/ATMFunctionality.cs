@@ -18,8 +18,8 @@ namespace Bank{
         }
 
         public static void Deposit(){
-            ATMMessages.AccountDetailsProvidingMsg();
             try{
+            ATMMessages.AccountDetailsProvidingMsg();
             string account=Console.ReadLine();
             if(bankaccounts.ContainsKey(account)){  
                 ATMMessages.DepositAmtMsg();
@@ -33,8 +33,8 @@ namespace Bank{
             }
         }
         public static void Withdraw(){
-             ATMMessages.AccountDetailsProvidingMsg();
             try{
+            ATMMessages.AccountDetailsProvidingMsg();
             string account=Console.ReadLine();
             if(bankaccounts.ContainsKey(account)){  
                 ATMMessages.WithdrawAmtMsg();
@@ -79,8 +79,19 @@ namespace Bank{
         public static void ShowTransactions(){
         
         }
-        public static bool ExitApplication(){
-            return false;
+        public static void ViewAllAccounts(){
+            Console.WriteLine("Enter your username");
+            string username=Console.ReadLine();
+            if(username=="admin"){
+                foreach(var kvp in bankaccounts)
+                    Console.WriteLine("{0} : {1}", kvp.Key, kvp.Value);
+                }
+            else{
+                Console.WriteLine("Access not granted!!");
+            }
         }
+         public static void ExitApplication(){
+
+         }
     }
 }
