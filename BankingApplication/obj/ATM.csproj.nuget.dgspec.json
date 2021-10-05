@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\admin\\Desktop\\BankingApplication\\ATM.csproj": {}
+    "C:\\Users\\admin\\Desktop\\TECHNOVERT Tasks\\BankingApplication\\ATM.csproj": {}
   },
   "projects": {
-    "C:\\Users\\admin\\Desktop\\BankingApplication\\ATM.csproj": {
+    "C:\\Users\\admin\\Desktop\\TECHNOVERT Tasks\\BankingApplication\\ATM.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Desktop\\BankingApplication\\ATM.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Desktop\\TECHNOVERT Tasks\\BankingApplication\\ATM.csproj",
         "projectName": "ATM",
-        "projectPath": "C:\\Users\\admin\\Desktop\\BankingApplication\\ATM.csproj",
+        "projectPath": "C:\\Users\\admin\\Desktop\\TECHNOVERT Tasks\\BankingApplication\\ATM.csproj",
         "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Desktop\\BankingApplication\\obj\\",
+        "outputPath": "C:\\Users\\admin\\Desktop\\TECHNOVERT Tasks\\BankingApplication\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
