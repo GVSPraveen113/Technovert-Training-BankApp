@@ -1,0 +1,108 @@
+{
+  "version": 3,
+  "targets": {
+    "net5.0": {
+      "Technovert.BankApp.Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/Technovert.BankApp.Models.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Technovert.BankApp.Models.dll": {}
+        }
+      },
+      "Technovert.BankApp.Services/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Technovert.BankApp.Models": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Technovert.BankApp.Services.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Technovert.BankApp.Services.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Technovert.BankApp.Models/1.0.0": {
+      "type": "project",
+      "path": "../Technovert.BankApp.Models/Technovert.BankApp.Models.csproj",
+      "msbuildProject": "../Technovert.BankApp.Models/Technovert.BankApp.Models.csproj"
+    },
+    "Technovert.BankApp.Services/1.0.0": {
+      "type": "project",
+      "path": "../Technovert.BankApp.Services/Technovert.BankApp.Services.csproj",
+      "msbuildProject": "../Technovert.BankApp.Services/Technovert.BankApp.Services.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net5.0": [
+      "Technovert.BankApp.Services >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\admin\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "F:\\Visual Studio Code Projects\\Technovert.BankApp\\Technovert.BankApp.CLI\\Technovert.BankApp.CLI.csproj",
+      "projectName": "Technovert.BankApp.CLI",
+      "projectPath": "F:\\Visual Studio Code Projects\\Technovert.BankApp\\Technovert.BankApp.CLI\\Technovert.BankApp.CLI.csproj",
+      "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+      "outputPath": "F:\\Visual Studio Code Projects\\Technovert.BankApp\\Technovert.BankApp.CLI\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net5.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "projectReferences": {
+            "F:\\Visual Studio Code Projects\\Technovert.BankApp\\Technovert.BankApp.Services\\Technovert.BankApp.Services.csproj": {
+              "projectPath": "F:\\Visual Studio Code Projects\\Technovert.BankApp\\Technovert.BankApp.Services\\Technovert.BankApp.Services.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net5.0": {
+        "targetAlias": "net5.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
