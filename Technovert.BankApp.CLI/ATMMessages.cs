@@ -50,6 +50,10 @@ namespace Technovert.BankApp.CLI
         {
             Console.WriteLine("You have entered some of the details incorrectly. Please check back and proceed");
         }
+        public static void TransactionSuccessfulMsg()
+        {
+            Console.WriteLine("The Transaction performed is successful");
+        }
 
     }
 }

@@ -9,7 +9,9 @@ namespace Technovert.BankApp.CLI
     {
         static void Main(string[] args)
         {
-            BankServices bs = new BankServices();
+            BankService bs = new BankService();
+            //AccountService as= new AccountService();
+            TransactionService ts = new TransactionService();
             Console.WriteLine("Create your Bank");
             Console.WriteLine(bs.CreateBank(Console.ReadLine()));
             ATMMessages.DisplayOptionsMsg();
@@ -42,7 +44,10 @@ namespace Technovert.BankApp.CLI
                                 string BankName = Inputs.GetBankName();
                                 string AccountId = Inputs.GetAccountId();
                                 decimal Amount = Inputs.GetDepositAmt();
-                                Console.WriteLine(bs.Deposit(BankName, AccountId, Amount));
+                                if(ts.Deposit(bs,BankName, AccountId, Amount))
+                                {
+                                ATMMessages.TransactionSuccessfulMsg();
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -56,7 +61,11 @@ namespace Technovert.BankApp.CLI
                                 string BankName = Inputs.GetBankName();
                                 string AccountId = Inputs.GetAccountId();
                                 decimal Amount = Inputs.GetWithdrawAmt();
-                                Console.WriteLine(bs.Withdraw(BankName, AccountId, Amount));
+                                if(ts.Withdraw(bs,BankName, AccountId, Amount))
+                                {
+                                    ATMMessages.TransactionSuccessfulMsg();
+                                }
+                                
                             }
                             catch (Exception ex)
                             {
@@ -73,7 +82,10 @@ namespace Technovert.BankApp.CLI
                                 string receiverBankName = Inputs.GetBankName();
                                 string receiverAccountId = Inputs.GetRecepientAccountName();
                                 decimal amount = Inputs.GetTransferAmt();
-                                Console.WriteLine(bs.TransferMoney(sourceBankName, senderAccountId, receiverBankName, receiverAccountId, amount));
+                                if(ts.TransferMoney(bs,sourceBankName, senderAccountId, receiverBankName, receiverAccountId, amount))
+                                {
+                                    ATMMessages.TransactionSuccessfulMsg();
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -85,7 +97,7 @@ namespace Technovert.BankApp.CLI
                         {
                             string BankName = Inputs.GetBankName();
                             string senderAccountId = Inputs.GetAccountId();
-                            List<Transaction> transactions=bs.ShowTransactions(BankName, senderAccountId);
+                            List<Transaction> transactions=ts.GetTransactions(bs,BankName, senderAccountId);
                             foreach (Transaction transaction in transactions)
                             {
                                 Console.WriteLine(transaction.Id + " " + transaction.Type + " " +transaction.Amount + " " + transaction.On);

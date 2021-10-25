@@ -15,5 +15,7 @@ namespace Technovert.BankApp.Models
         public string CreatedBy { get; set; }
         public DateTime UpdatedOn { get; set; }
         public string UpdatedBy { get; set; }
+        public Charges charges { get; set; }
+        public CurrencyType currency { get; set; } = CurrencyType.INR;
     }
 }
