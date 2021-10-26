@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Technovert.BankApp.Models
+namespace Technovert.BankApp.Models.Enums
 {
-    public enum AccountStatus
+    public enum UserType
     {
-        Active,
-        Inactive,
-        Closed
+        BankStaff=1,
+        AccountHolder,
+        ExitApplication
     }
 }

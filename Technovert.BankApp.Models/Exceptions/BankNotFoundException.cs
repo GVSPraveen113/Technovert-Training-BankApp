@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Technovert.BankApp.Models.Exceptions
 {
-    public class InsufficientBalanceException:Exception
+    public class BankNotFoundException:Exception
     {
-        public InsufficientBalanceException()
+        public BankNotFoundException()
         {
         }
-       public override string Message
+        public override string Message
         {
             get
             {
-                return "Please Deposit some amount. Transaction failed due to insufficient Balance";
+                return "The Bank details provided are incorrect. Check details again";
             }
         }
     }

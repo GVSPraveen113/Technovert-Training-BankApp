@@ -8,6 +8,10 @@ namespace Technovert.BankApp.CLI
 {
     public static class ATMMessages
     {
+        public static void SelectUserTypeMsg()
+        {
+            Console.WriteLine("Select 1 if you are BankStaff and Select 2 if you are Account Holder");
+        }
         public static void DisplayOptionsMsg()
         {
             Console.WriteLine("Press 1. for Creating Account");
@@ -54,6 +58,9 @@ namespace Technovert.BankApp.CLI
         {
             Console.WriteLine("The Transaction performed is successful");
         }
-
+        public static void DisplayTransactionChargesMsg()
+        {
+            Console.WriteLine("Select Method of Transaction. Press 1 for RTPS, 2 for IMPS\n RTPS Same Bank - 0%, RTPS Different Bank - 2%\n IMPS Same Bank - 5%, IMPS Different Bank - 6%");
+        }
     }
 }

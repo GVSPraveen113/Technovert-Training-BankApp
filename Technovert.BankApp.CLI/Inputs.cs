@@ -39,9 +39,9 @@ namespace Technovert.BankApp.CLI
             return decimal.Parse(Console.ReadLine());
         }
 
-        public static string GetRecepientAccountName()
+        public static string GetRecepientAccountId()
         {
-            Console.WriteLine("Please Enter the Recipient Name:");
+            Console.WriteLine("Please Enter the Recipient ID:");
             return Console.ReadLine();
         }
         public static string GetPassword()

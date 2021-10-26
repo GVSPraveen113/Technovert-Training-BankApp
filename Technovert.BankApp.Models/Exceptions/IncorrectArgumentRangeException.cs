@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Technovert.BankApp.Models.Exceptions
 {
-    public class InsufficientBalanceException:Exception
+    public class IncorrectArgumentRangeException:Exception
     {
-        public InsufficientBalanceException()
+        public IncorrectArgumentRangeException()
         {
         }
-       public override string Message
+        public override string Message
         {
             get
             {
-                return "Please Deposit some amount. Transaction failed due to insufficient Balance";
+                return "Length must be greater than or equal to 3";
             }
         }
     }
