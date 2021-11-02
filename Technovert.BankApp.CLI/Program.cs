@@ -13,27 +13,92 @@ namespace Technovert.BankApp.CLI
             BankService bankService = new BankService();
             AccountService accountService= new AccountService(bankService);
             TransactionService  transactionService= new TransactionService(bankService);
+            Console.WriteLine("Enter Bank Name to create your Bank");
+            string bankName = Console.ReadLine();
+            string bankId=bankService.CreateBank(bankName);
+            Console.WriteLine("Bank Id is"+bankId);
             bool isBankApplicationOpen = true;
             while (isBankApplicationOpen) {
                 ATMMessages.SelectUserTypeMsg();
                 UserType userType = (UserType)Enum.Parse(typeof(UserType), Console.ReadLine());
                 if (userType == UserType.BankStaff)
                 {
+                    ATMMessages.DisplayBankStaffOptionsMsg();
                     bool exitVariable = true;
                     while (exitVariable) {
-                        Console.WriteLine("Create your Bank");
-                        string bankName = Console.ReadLine();
-                        Console.WriteLine(bankService.CreateBank(bankName));
-                        if (bankName == "5") {
-                            exitVariable = false;
+                        BankStaffOptions staffOption= (BankStaffOptions)Enum.Parse(typeof(BankStaffOptions), Console.ReadLine());
+                        switch (staffOption)
+                        {
+                            case BankStaffOptions.CreateAccount:
+                                try
+                                {
+                                    ATMMessages.AccountCreationMsg();
+                                    string bankIdentity = Inputs.GetBankId();
+                                    string accountHolderName = Inputs.GetName();
+                                    string password = Inputs.SetPassword();
+                                    decimal amount = Inputs.GetInitialDeposit();
+                                    bool gender = Inputs.SetGender();
+                                    Console.WriteLine("Your account is created with Id "+accountService.CreateAccount(bankIdentity, accountHolderName, password, amount, gender));
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(ex.Message);
+                                }
+                                break;
+                            case BankStaffOptions.UpdateAccount:
+                                break;
+                            case BankStaffOptions.DeleteAccount:
+                                try
+                                {
+                                    ATMMessages.ConfirmDeleteAccountMsg();
+                                    string bankIdentity = Inputs.GetBankId();
+                                    string accountId = Inputs.GetAccountId();
+                                    if(accountService.DeleteAccount(bankIdentity, accountId))
+                                    Console.WriteLine("Account Deleted Successfully");
+
+                                }
+                                catch(Exception ex)
+                                {
+                                    Console.WriteLine(ex.Message);
+                                }
+                                break;
+                            case BankStaffOptions.AddNewCurrency:
+                                break;
+                            case BankStaffOptions.AddServiceChargeSameBank:
+                                break;
+                            case BankStaffOptions.AddServiceChargeDiffBank:
+                                break;
+                            case BankStaffOptions.ViewAccountTransactionHistory:
+                                    try
+                                    {
+                                        string BankName = Inputs.GetBankName();
+                                        string AccountId = Inputs.GetAccountId();
+                                        string password = Inputs.GetPassword();
+                                        List<Transaction> transactions = transactionService.GetTransactions(BankName, AccountId, password);
+                                        foreach (Transaction transaction in transactions)
+                                        {
+                                            Console.WriteLine(transaction.Id + " " + transaction.Type + " " + transaction.Amount + " " + transaction.On);
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine(ex.Message);
+                                    }
+                                    break;
+                            case BankStaffOptions.RevertTransaction:
+                                break;
+                            default:
+                                Console.WriteLine("Invalid Selection");
+                                Console.ReadLine();
+                                break;
                         }
-                        
+
                     }  
                     
                 }
                 else if (userType == UserType.AccountHolder)
                 {
-                    ATMMessages.DisplayOptionsMsg();
+                    ATMMessages.DisplayUserOptionsMsg();
                     bool exitVariable = true;
                     while (exitVariable)
                     {
@@ -42,30 +107,16 @@ namespace Technovert.BankApp.CLI
                             AccountHolderOptions userOption = (AccountHolderOptions)Enum.Parse(typeof(AccountHolderOptions), Console.ReadLine());
                             switch (userOption)
                             {
-                                case AccountHolderOptions.CreateAccount:
-                                    try
-                                    {
-                                        ATMMessages.AccountCreationMsg();
-                                        string BankId = Inputs.GetBankId();
-                                        string AccountHolderName = Inputs.GetName();
-                                        string Password = Inputs.GetPassword();
-                                        decimal Amount = Inputs.GetInitialDeposit();
-                                        bool Gender = Inputs.SetGender();
-                                        Console.WriteLine(accountService.CreateAccount(BankId, AccountHolderName, Password, Amount, Gender));
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine(ex.Message);
-                                    }
-                                    break;
+                                
                                 case AccountHolderOptions.Deposit:
                                     try
                                     {
                                         ATMMessages.AccountDetailsProvidingMsg();
-                                        string BankName = Inputs.GetBankName();
-                                        string AccountId = Inputs.GetAccountId();
-                                        decimal Amount = Inputs.GetDepositAmt();
-                                        if (transactionService.Deposit(BankName, AccountId, Amount))
+                                        string bankname = Inputs.GetBankName();
+                                        string accountId = Inputs.GetAccountId();
+                                        string password = Inputs.GetPassword();
+                                        decimal amount = Inputs.GetDepositAmt();
+                                        if (transactionService.Deposit(bankname, accountId, password, amount))
                                         {
                                             ATMMessages.TransactionSuccessfulMsg();
                                         }
@@ -79,10 +130,11 @@ namespace Technovert.BankApp.CLI
                                     try
                                     {
                                         ATMMessages.AccountDetailsProvidingMsg();
-                                        string BankName = Inputs.GetBankName();
-                                        string AccountId = Inputs.GetAccountId();
-                                        decimal Amount = Inputs.GetWithdrawAmt();
-                                        if (transactionService.Withdraw(BankName, AccountId, Amount))
+                                        string bankname = Inputs.GetBankName();
+                                        string accountId = Inputs.GetAccountId();
+                                        string password = Inputs.GetPassword();
+                                        decimal amount = Inputs.GetWithdrawAmt();
+                                        if (transactionService.Withdraw(bankname, accountId,password, amount))
                                         {
                                             ATMMessages.TransactionSuccessfulMsg();
                                         }
@@ -100,12 +152,13 @@ namespace Technovert.BankApp.CLI
                                     {
                                         string sourceBankName = Inputs.GetBankName();
                                         string senderAccountId = Inputs.GetAccountId();
+                                        string password = Inputs.GetPassword();
                                         string receiverBankName = Inputs.GetBankName();
                                         string receiverAccountId = Inputs.GetRecepientAccountId();
                                         ATMMessages.DisplayTransactionChargesMsg();
                                         TransactionCharge transactioncharge = (TransactionCharge)Enum.Parse(typeof(TransactionCharge), Console.ReadLine());
                                         decimal amount = Inputs.GetTransferAmt();
-                                        if (transactionService.TransferMoney(sourceBankName, senderAccountId, receiverBankName, receiverAccountId, transactioncharge, amount))
+                                        if (transactionService.TransferMoney(sourceBankName, senderAccountId,password, receiverBankName, receiverAccountId, transactioncharge, amount))
                                         {
                                             ATMMessages.TransactionSuccessfulMsg();
                                         }
@@ -118,9 +171,10 @@ namespace Technovert.BankApp.CLI
                                 case AccountHolderOptions.ShowTransactions:
                                     try
                                     {
-                                        string BankName = Inputs.GetBankName();
+                                        string bankname = Inputs.GetBankName();
                                         string senderAccountId = Inputs.GetAccountId();
-                                        List<Transaction> transactions = transactionService.GetTransactions(BankName, senderAccountId);
+                                        string password = Inputs.GetPassword();
+                                        List<Transaction> transactions = transactionService.GetTransactions(bankname, senderAccountId, password);
                                         foreach (Transaction transaction in transactions)
                                         {
                                             Console.WriteLine(transaction.Id + " " + transaction.Type + " " + transaction.Amount + " " + transaction.On);

@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 
 namespace Technovert.BankApp.Models.Exceptions
 {
+    [Serializable]
     public class BankCreationException:Exception
     {
         public BankCreationException()
         {
         }
-        public override string Message
-        {
-            get
-            {
-                return "Bank Already Exists with these details";
-            }
-        }
+        public BankCreationException(string message) : base(message) { }
+        
     }
 }

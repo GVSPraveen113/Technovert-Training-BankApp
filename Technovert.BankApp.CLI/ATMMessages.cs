@@ -12,14 +12,25 @@ namespace Technovert.BankApp.CLI
         {
             Console.WriteLine("Select 1 if you are BankStaff and Select 2 if you are Account Holder");
         }
-        public static void DisplayOptionsMsg()
+        public static void DisplayUserOptionsMsg()
+        {
+            Console.WriteLine("Press 1. for Deposit");
+            Console.WriteLine("Press 2. for Withdrawal");
+            Console.WriteLine("Press 3. for Transfer Money");
+            Console.WriteLine("Press 4. for Show Transactions");
+            Console.WriteLine("Press 5. to Exit ATM Application");
+        }
+        public static void DisplayBankStaffOptionsMsg()
         {
             Console.WriteLine("Press 1. for Creating Account");
-            Console.WriteLine("Press 2. for Deposit");
-            Console.WriteLine("Press 3. for Withdrawal");
-            Console.WriteLine("Press 4. for Transfer Money");
-            Console.WriteLine("Press 5. for Show Transactions");
-            Console.WriteLine("Press 6. to Exit ATM Application");
+            Console.WriteLine("Press 2. for Updating Account");
+            Console.WriteLine("Press 3. for Deleting Account");
+            Console.WriteLine("Press 4. for Adding New Currency");
+            Console.WriteLine("Press 5. for Adding Service Charge Same Bank,");
+            Console.WriteLine("Press 6. for Adding ServiceCharge Diff Bank");
+            Console.WriteLine("Press 7. for Viewing Account Transaction History");
+            Console.WriteLine("Press 8. for Reverting Transaction");
+
         }
         public static void AccountCreationMsg()
         {
@@ -61,6 +72,10 @@ namespace Technovert.BankApp.CLI
         public static void DisplayTransactionChargesMsg()
         {
             Console.WriteLine("Select Method of Transaction. Press 1 for RTPS, 2 for IMPS\n RTPS Same Bank - 0%, RTPS Different Bank - 2%\n IMPS Same Bank - 5%, IMPS Different Bank - 6%");
+        }
+        public static void ConfirmDeleteAccountMsg()
+        {
+            Console.WriteLine("Are you Sure to delete the Account");
         }
     }
 }

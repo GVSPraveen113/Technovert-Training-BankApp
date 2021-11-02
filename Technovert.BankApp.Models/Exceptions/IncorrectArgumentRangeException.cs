@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 
 namespace Technovert.BankApp.Models.Exceptions
 {
+    [Serializable]
     public class IncorrectArgumentRangeException:Exception
     {
         public IncorrectArgumentRangeException()
         {
         }
-        public override string Message
-        {
-            get
-            {
-                return "Length must be greater than or equal to 3";
-            }
-        }
+        public IncorrectArgumentRangeException(string message) : base(message) { }
+        
     }
 }

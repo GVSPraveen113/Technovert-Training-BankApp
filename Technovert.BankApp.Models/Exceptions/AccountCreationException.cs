@@ -6,17 +6,14 @@ using System.Threading.Tasks;
 
 namespace Technovert.BankApp.Models.Exceptions
 {
+    [Serializable]
     class AccountCreationException:Exception
     {
         public AccountCreationException()
         {
         }
-        public override string Message
-        {
-            get
-            {
-                return "Try changing your Credentials. An Account is Existing with the above Credentials";
-            }
-        }
+        public AccountCreationException(string message) : base(message) { }
+        
+
     }
 }

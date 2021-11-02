@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 
 namespace Technovert.BankApp.Models.Exceptions
 {
+    [Serializable]
     public class AccountNotFoundException:Exception
     {
         public AccountNotFoundException()
         {
         }
-        public override string Message
-        {
-            get
-            {
-                return "Account is not Found in the Database. Please recheck your credentials or create a new account";
-            }
-        }
+        
+        public AccountNotFoundException(string message): base(message) { }
     }
 }

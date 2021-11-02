@@ -30,12 +30,16 @@ namespace Technovert.BankApp.Services
             }
             else
             {
-                throw new BankCreationException();
+                throw new BankCreationException("Bank Creation Failed! It seems Bank Already Exists");
             }
         }
         public string GetBankId(string name)
         {
             Bank bank=this.banks.Find(m => m.Name == name);
+            if (bank == null)
+            {
+                throw new BankNotFoundException("Bank Id can't be retrieved. Please check whether this bank exists");
+            }
             return bank.Id;
         }
         public bool CheckBankExistsByName(string name)
@@ -51,7 +55,7 @@ namespace Technovert.BankApp.Services
             Bank bank=this.banks.SingleOrDefault(m => m.Id == bankId);
             if (bank == null)
             {
-                throw new BankNotFoundException();
+                throw new BankNotFoundException("The Bank details provided are incorrect. Check details again");
             }
             else
             {
@@ -66,9 +70,13 @@ namespace Technovert.BankApp.Services
             string date = dt.ToShortDateString();
             if (bankName.Length < 3)
             {
-                throw new IncorrectArgumentRangeException();
+                throw new IncorrectArgumentRangeException("Length must be greater than or equal to 3");
             }
-            return bankName.Substring(0, 3) + date;
+            else 
+            { 
+                return bankName.Substring(0, 3) + date; 
+            }
+            
 
         }
         

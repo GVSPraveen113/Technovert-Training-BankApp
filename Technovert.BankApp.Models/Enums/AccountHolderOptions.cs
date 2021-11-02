@@ -8,8 +8,7 @@ namespace Technovert.BankApp.Models.Enums
 {
     public enum AccountHolderOptions
     {
-        CreateAccount = 1,
-        Deposit,
+        Deposit=1,
         Withdraw,
         TransferMoney,
         ShowTransactions,

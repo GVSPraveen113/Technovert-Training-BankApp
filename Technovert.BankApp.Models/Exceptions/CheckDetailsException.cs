@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 
 namespace Technovert.BankApp.Models.Exceptions
 {
+    [Serializable]
     public class CheckDetailsException:Exception
     {
         public CheckDetailsException()
         {
         }
-        public override string Message
-        {
-            get
-            {
-                return "Please confirm your details before submitting";
-            }
-        }
+        public CheckDetailsException(string message) : base(message) { }
+        
     }
 }

@@ -44,9 +44,14 @@ namespace Technovert.BankApp.CLI
             Console.WriteLine("Please Enter the Recipient ID:");
             return Console.ReadLine();
         }
-        public static string GetPassword()
+        public static string SetPassword()
         {
             Console.WriteLine("Set a Password for your Account:");
+            return Console.ReadLine();
+        }
+        public static string GetPassword()
+        {
+            Console.WriteLine("Enter your Password:");
             return Console.ReadLine();
         }
         public static bool SetGender()

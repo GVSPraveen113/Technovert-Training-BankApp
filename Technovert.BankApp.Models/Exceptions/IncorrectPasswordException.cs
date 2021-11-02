@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 namespace Technovert.BankApp.Models.Exceptions
 {
     [Serializable]
-    public class BankNotFoundException:Exception
+   
+    public class IncorrectPasswordException : Exception
     {
-        public BankNotFoundException()
+        public IncorrectPasswordException()
         {
         }
-        public BankNotFoundException(string message) : base(message) { }
-        
+        public IncorrectPasswordException(string message) : base(message) { }
+
     }
 }

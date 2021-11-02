@@ -10,15 +10,15 @@ namespace Technovert.BankApp.Services
 {
     public class AccountService
     {
-        private readonly BankService bs;
-        public AccountService(BankService bs)
+        private readonly BankService bankService;
+        public AccountService(BankService bankService)
         {
-            this.bs = bs;
+            this.bankService = bankService;
         }
         public string CreateAccount(string bankId, string accountHolderName, string password, decimal initialDeposit, bool gender)
         {
             
-            Bank bank = bs.SingleBank(bankId);
+            Bank bank = bankService.SingleBank(bankId);
             
             Account account = new Account()
             {
@@ -33,16 +33,39 @@ namespace Technovert.BankApp.Services
             bank.Accounts.Add(account);
             return account.Id;
         }
+        public bool DeleteAccount(string bankId, string accountId)
+        {
+            Bank bank = bankService.SingleBank(bankId);
+            Account account = bank.Accounts.SingleOrDefault(account => account.Id == accountId);
+            if (account == null)
+            {
+                throw new AccountNotFoundException("Account isn't found!");
+            }
+            
+            bank.Accounts.Remove(account);
+            return true;
+        }
         public Account SingleAccount(Bank bank,string accountId)
         {
             Account account = bank.Accounts.SingleOrDefault(m => m.Id == accountId);
             if (account == null)
             {
-                throw new BankNotFoundException();
+                throw new AccountNotFoundException("Account is not Found in the Database.Please recheck your credentials or create a new account");
             }
             else
             {
                 return account;
+            }
+        }
+        public bool ValidatePassword(Account account,string password)
+        {
+            if (account.Password == password)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         private string GenerateAccountId(string accountHolderName)
