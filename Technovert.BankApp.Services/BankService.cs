@@ -62,8 +62,39 @@ namespace Technovert.BankApp.Services
                 return bank;
             }
         }
+        public bool AddNewCurrency(string bankId,string currencyName,decimal currencyValue)
+        {
+            Bank bank = this.banks.SingleOrDefault(m => m.Id == bankId);
+            if (bank.currenciesAccepted.ContainsKey(currencyName))
+            {
+                throw new BankNotFoundException("Given Currency already exists ! Sorry Operation Cannot be performed");
+            }
+            bank.currenciesAccepted.Add(currencyName, currencyValue);
+            return true;
+        }
+        public bool AddServiceChargeSameBank(string bankId,decimal rtgs,decimal imps)
+        {
+            Bank bank = banks.SingleOrDefault(bank => bank.Id == bankId);
+            if (bank == null)
+            {
+                throw new BankNotFoundException("No Bank is found with the given ID");
+            }
+            bank.RTGSSameBank = rtgs;
+            bank.IMPSSameBank = imps;
+            return true;
+        }
+        public bool AddServiceChargeDiffBank(string bankId, decimal rtgs, decimal imps)
+        {
+            Bank bank = banks.SingleOrDefault(bank => bank.Id == bankId);
+            if (bank == null)
+            {
+                throw new BankNotFoundException("No Bank is found with the given ID");
+            }
+            bank.RTGSDiffBank = rtgs;
+            bank.IMPSDiffBank = imps;
+            return true;
+        }
 
-        
         private string GenerateRandomBankId(string bankName)
         {
             DateTime dt = new DateTime();
@@ -76,10 +107,7 @@ namespace Technovert.BankApp.Services
             { 
                 return bankName.Substring(0, 3) + date; 
             }
-            
 
         }
-        
-
     }
 }

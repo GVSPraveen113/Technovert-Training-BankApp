@@ -15,6 +15,7 @@ namespace Technovert.BankApp.Models.Enums
         AddServiceChargeSameBank,
         AddServiceChargeDiffBank,
         ViewAccountTransactionHistory,
-        RevertTransaction
+        RevertTransaction,
+        Exit
     }
 }

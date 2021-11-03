@@ -12,10 +12,11 @@ namespace Technovert.BankApp.CLI
         {
             BankService bankService = new BankService();
             AccountService accountService= new AccountService(bankService);
-            TransactionService  transactionService= new TransactionService(bankService);
-            Console.WriteLine("Enter Bank Name to create your Bank");
-            string bankName = Console.ReadLine();
+            TransactionService  transactionService= new TransactionService(bankService,accountService);
+            ATMMessages.BankCreationMsg();
+            string bankName = Inputs.GetBankName();
             string bankId=bankService.CreateBank(bankName);
+            
             Console.WriteLine("Bank Id is"+bankId);
             bool isBankApplicationOpen = true;
             while (isBankApplicationOpen) {
@@ -26,49 +27,111 @@ namespace Technovert.BankApp.CLI
                     ATMMessages.DisplayBankStaffOptionsMsg();
                     bool exitVariable = true;
                     while (exitVariable) {
-                        BankStaffOptions staffOption= (BankStaffOptions)Enum.Parse(typeof(BankStaffOptions), Console.ReadLine());
-                        switch (staffOption)
-                        {
-                            case BankStaffOptions.CreateAccount:
-                                try
-                                {
-                                    ATMMessages.AccountCreationMsg();
-                                    string bankIdentity = Inputs.GetBankId();
-                                    string accountHolderName = Inputs.GetName();
-                                    string password = Inputs.SetPassword();
-                                    decimal amount = Inputs.GetInitialDeposit();
-                                    bool gender = Inputs.SetGender();
-                                    Console.WriteLine("Your account is created with Id "+accountService.CreateAccount(bankIdentity, accountHolderName, password, amount, gender));
-                                }
-                                catch (Exception ex)
-                                {
-                                    Console.WriteLine(ex.Message);
-                                }
-                                break;
-                            case BankStaffOptions.UpdateAccount:
-                                break;
-                            case BankStaffOptions.DeleteAccount:
-                                try
-                                {
-                                    ATMMessages.ConfirmDeleteAccountMsg();
-                                    string bankIdentity = Inputs.GetBankId();
-                                    string accountId = Inputs.GetAccountId();
-                                    if(accountService.DeleteAccount(bankIdentity, accountId))
-                                    Console.WriteLine("Account Deleted Successfully");
+                        try {
+                            BankStaffOptions staffOption = (BankStaffOptions)Enum.Parse(typeof(BankStaffOptions), Console.ReadLine());
+                            switch (staffOption)
+                            {
+                                case BankStaffOptions.CreateAccount:
+                                    try
+                                    {
+                                        ATMMessages.AccountCreationMsg();
+                                        string bankIdentity = Inputs.GetBankId();
+                                        string accountHolderName = Inputs.GetName();
+                                        string password = Inputs.SetPassword();
+                                        decimal amount = Inputs.GetInitialDeposit();
+                                        bool gender = Inputs.SetGender();
+                                        Console.WriteLine("Your account is created with Id " + accountService.CreateAccount(bankIdentity, accountHolderName, password, amount, gender));
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine(ex.Message);
+                                    }
+                                    break;
+                                case BankStaffOptions.UpdateAccount:
+                                    try
+                                    {
+                                        ATMMessages.UpdateAccountMsg();
+                                        string bankIdentity = Inputs.GetBankId();
+                                        string accountId = Inputs.GetAccountId();
+                                        string updatedName = Inputs.GetName();
+                                        bool updatedGender = Inputs.SetGender();
+                                        if (accountService.UpdateAccount(bankIdentity, accountId, updatedName, updatedGender)){
+                                            ATMMessages.SuccessMsg();
+                                        }
 
-                                }
-                                catch(Exception ex)
-                                {
-                                    Console.WriteLine(ex.Message);
-                                }
-                                break;
-                            case BankStaffOptions.AddNewCurrency:
-                                break;
-                            case BankStaffOptions.AddServiceChargeSameBank:
-                                break;
-                            case BankStaffOptions.AddServiceChargeDiffBank:
-                                break;
-                            case BankStaffOptions.ViewAccountTransactionHistory:
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine(ex.Message);
+                                    }
+
+                                    break;
+                                case BankStaffOptions.DeleteAccount:
+                                    try
+                                    {
+                                        ATMMessages.ConfirmDeleteAccountMsg();
+                                        string bankIdentity = Inputs.GetBankId();
+                                        string accountId = Inputs.GetAccountId();
+                                        if (accountService.DeleteAccount(bankIdentity, accountId))
+                                            Console.WriteLine("Account Deleted Successfully");
+
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine(ex.Message);
+                                    }
+                                    break;
+                                case BankStaffOptions.AddNewCurrency:
+                                    try
+                                    {
+                                        ATMMessages.AddNewCurrencyMsg();
+                                        string bankIdentity = Inputs.GetBankId();
+                                        string currencyName = Inputs.GetCurrencyName();
+                                        decimal conversionToINR = Inputs.GetCurrencyValue();
+                                        if (bankService.AddNewCurrency(bankIdentity,currencyName,conversionToINR))
+                                        {
+                                            ATMMessages.SuccessMsg();
+                                        }
+                                    }
+                                    catch(Exception ex)
+                                    {
+                                        Console.WriteLine(ex.Message);
+                                    }
+                                    break;
+                                case BankStaffOptions.AddServiceChargeSameBank:
+                                    try
+                                    {
+                                        string bankid = Inputs.GetBankId();
+                                        decimal rtgsCharges = Inputs.SetRtgsCharges();
+                                        decimal impsCharges = Inputs.SetImpsCharges();
+                                        if (bankService.AddServiceChargeSameBank(bankid, rtgsCharges, impsCharges))
+                                        {
+                                            ATMMessages.SuccessMsg();
+                                        }
+                                        break;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine(ex.Message);
+                                    }
+                                    break;
+                                case BankStaffOptions.AddServiceChargeDiffBank:
+                                    try
+                                    {
+                                        string bankid = Inputs.GetBankId();
+                                        decimal rtgsCharges = Inputs.SetRtgsCharges();
+                                        decimal impsCharges = Inputs.SetImpsCharges();
+                                        if (bankService.AddServiceChargeSameBank(bankid, rtgsCharges, impsCharges))
+                                        {
+                                            ATMMessages.SuccessMsg();
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine(ex.Message);
+                                    }
+                                    break;
+                                case BankStaffOptions.ViewAccountTransactionHistory:
                                     try
                                     {
                                         string BankName = Inputs.GetBankName();
@@ -85,14 +148,36 @@ namespace Technovert.BankApp.CLI
                                         Console.WriteLine(ex.Message);
                                     }
                                     break;
-                            case BankStaffOptions.RevertTransaction:
-                                break;
-                            default:
-                                Console.WriteLine("Invalid Selection");
-                                Console.ReadLine();
-                                break;
+                                case BankStaffOptions.RevertTransaction:
+                                    try
+                                    {
+                                        string bankid = Inputs.GetBankId();
+                                        string accountId = Inputs.GetAccountId();
+                                        string transactionId = Inputs.GetTransactionId();
+                                        if (transactionService.RevertTransaction(bankid, accountId, transactionId))
+                                        {
+                                            ATMMessages.SuccessMsg();
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine(ex.Message);
+                                    }
+                                    break;
+                                case BankStaffOptions.Exit:
+                                    exitVariable = false;
+                                    break;
+                                default:
+                                    Console.WriteLine("Invalid Selection");
+                                    Console.ReadLine();
+                                    break;
+                            }
                         }
-
+                        catch(Exception)
+                        {
+                            Console.WriteLine("Enter Valid Selection from the Menu");
+                        }
+                        
                     }  
                     
                 }
@@ -114,9 +199,10 @@ namespace Technovert.BankApp.CLI
                                         ATMMessages.AccountDetailsProvidingMsg();
                                         string bankname = Inputs.GetBankName();
                                         string accountId = Inputs.GetAccountId();
+                                        string currencyName = Inputs.GetCurrencyName();
                                         string password = Inputs.GetPassword();
                                         decimal amount = Inputs.GetDepositAmt();
-                                        if (transactionService.Deposit(bankname, accountId, password, amount))
+                                        if (transactionService.Deposit(bankname, accountId, password,currencyName, amount))
                                         {
                                             ATMMessages.TransactionSuccessfulMsg();
                                         }
@@ -188,18 +274,6 @@ namespace Technovert.BankApp.CLI
                                 case AccountHolderOptions.Exit:
                                     exitVariable = false;
                                     break;
-                                /*
-                            case UserOptions.ShowTransactions:
-                                ATM.ShowTransactions();
-                                break;
-                            case UserOptions.Exit:
-                                ATM.ExitApplication();
-                                return;
-                            case UserOptions.ViewAllAccounts:
-                                string username = Inputs.GetAccountName();
-                                Console.WriteLine(ATM.ViewAllAccounts(username));
-                                break;
-                            */
                                 default:
                                     Console.WriteLine("Invalid selection! Can't Proceed with this request");
                                     Console.ReadLine();

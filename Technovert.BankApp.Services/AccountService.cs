@@ -33,6 +33,14 @@ namespace Technovert.BankApp.Services
             bank.Accounts.Add(account);
             return account.Id;
         }
+        public bool UpdateAccount(string bankId, string accountId, string name, bool gender)
+        {
+            Bank bank = bankService.SingleBank(bankId);
+            Account account = SingleAccount(bank, accountId);
+            account.Name = name;
+            account.isMale = gender;
+            return true;
+        }
         public bool DeleteAccount(string bankId, string accountId)
         {
             Bank bank = bankService.SingleBank(bankId);

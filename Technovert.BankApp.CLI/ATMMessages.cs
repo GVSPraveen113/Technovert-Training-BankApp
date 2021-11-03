@@ -12,6 +12,14 @@ namespace Technovert.BankApp.CLI
         {
             Console.WriteLine("Select 1 if you are BankStaff and Select 2 if you are Account Holder");
         }
+        public static void BankCreationMsg()
+        {
+            Console.WriteLine("Enter Bank Name to Create a Bank");
+        }
+        public static void UpdateAccountMsg()
+        {
+            Console.WriteLine("Please Enter your name and gender 'true if male and false if female' to update these details in your account");
+        }
         public static void DisplayUserOptionsMsg()
         {
             Console.WriteLine("Press 1. for Deposit");
@@ -30,7 +38,7 @@ namespace Technovert.BankApp.CLI
             Console.WriteLine("Press 6. for Adding ServiceCharge Diff Bank");
             Console.WriteLine("Press 7. for Viewing Account Transaction History");
             Console.WriteLine("Press 8. for Reverting Transaction");
-
+            Console.WriteLine("Press 9. for returning to Main Menu");
         }
         public static void AccountCreationMsg()
         {
@@ -76,6 +84,14 @@ namespace Technovert.BankApp.CLI
         public static void ConfirmDeleteAccountMsg()
         {
             Console.WriteLine("Are you Sure to delete the Account");
+        }
+        public static void SuccessMsg()
+        {
+            Console.WriteLine("Successfully Performed the operation!");
+        }
+        public static void AddNewCurrencyMsg()
+        {
+            Console.WriteLine("Add New Currency!!");
         }
     }
 }

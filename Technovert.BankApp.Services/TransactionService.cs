@@ -16,37 +16,49 @@ namespace Technovert.BankApp.Services
         private readonly BankService bankservice;
         private readonly AccountService accountservice;
        
-        public TransactionService(BankService bankservice)
+        public TransactionService(BankService bankService,AccountService accountService)
         {
-            this.bankservice = bankservice;
+            this.bankservice = bankService;
+            this.accountservice = accountService;
         }
         
-        public bool Deposit(string bankName, string accountId, string password, decimal deposit)
+         
+        public bool Deposit(string bankName, string accountId, string password, string currencyName, decimal deposit)
         {
 
             string bankId = bankservice.GetBankId(bankName);
             Bank bank = bankservice.SingleBank(bankId);
-
+            decimal toINRConversion;
+            if (bank.currenciesAccepted.ContainsKey(currencyName))
+            {
+                toINRConversion = bank.currenciesAccepted[currencyName];
+            }
+            else
+            {
+                throw new BankNotFoundException("The following Currency Not Found!");
+            }
             Account account = accountservice.SingleAccount(bank, accountId);
+            deposit = deposit * toINRConversion;
             if (accountservice.ValidatePassword(account, password))
             {
                 account.Balance += deposit;
                 account.Transactions.Add(new Transaction()
                 {
                     Id = GenerateTransactionId(bankId, account.Id),
+                    Amount=deposit,
                     Type = (TransactionType.Credit),
                     On = DateTime.Now
                 });
+                Console.WriteLine(account.Balance);
                 return true;
             }
             else
             {
                 throw new IncorrectPasswordException("Password is incorrect!!");
             }
-                
-
             
         }
+        
 
         public bool Withdraw(string bankName, string accountId, string password, decimal withdraw)
         {
@@ -61,9 +73,11 @@ namespace Technovert.BankApp.Services
                     account.Transactions.Add(new Transaction()
                     {
                         Id = GenerateTransactionId(bankId, account.Id),
+                        Amount=withdraw,
                         Type = (TransactionType.Debit),
                         On = DateTime.Now
                     });
+                    Console.WriteLine(account.Balance);
                     return true;
                 }
                 else
@@ -82,10 +96,18 @@ namespace Technovert.BankApp.Services
         {
             string sourceBankId = bankservice.GetBankId(senderBankName);
             Bank senderBank = bankservice.SingleBank(sourceBankId);
-            Account senderAccount = senderBank.Accounts.Single(ac => ac.Id == senderActId);
+            Account senderAccount = senderBank.Accounts.SingleOrDefault(ac => ac.Id == senderActId);
+            if (senderAccount == null)
+            {
+                throw new AccountNotFoundException("Account Not Found! Please Check");
+            }
             string recieverBankId = bankservice.GetBankId(receiverBankName);
             Bank receiverBank = bankservice.SingleBank(recieverBankId);
-            Account receiveraccount = senderBank.Accounts.Single(ac => ac.Id == receiverActId);
+            Account receiverAccount = senderBank.Accounts.SingleOrDefault(ac => ac.Id == receiverActId);
+            if (receiverAccount == null)
+            {
+                throw new AccountNotFoundException("Account Not Found! Please Check");
+            }
             decimal TaxPercentage = 0;
             if (transactionCharge == TransactionCharge.RTGS)
             {
@@ -119,23 +141,25 @@ namespace Technovert.BankApp.Services
                 else
                 {
                     senderAccount.Balance -= amountDeducted;
-                    receiveraccount.Balance += amountTransfered;
+                    receiverAccount.Balance += amountTransfered;
                     senderAccount.Transactions.Add(new Transaction()
                     {
                         Id = GenerateTransactionId(sourceBankId, senderAccount.Id),
-                        DestinationaccountId = receiveraccount.Id,
+                        DestinationaccountId = receiverAccount.Id,
                         Amount = amountDeducted,
                         Type = (TransactionType.Debit),
                         On = DateTime.Now
                     });
-                    receiveraccount.Transactions.Add(new Transaction()
+                    receiverAccount.Transactions.Add(new Transaction()
                     {
-                        Id = GenerateTransactionId(recieverBankId, receiveraccount.Id),
+                        Id = GenerateTransactionId(recieverBankId, receiverAccount.Id),
                         sourceAccountId = senderAccount.Id,
                         Amount = amountTransfered,
                         Type = (TransactionType.Credit),
                         On = DateTime.Now
                     });
+                    Console.WriteLine(senderAccount.Balance);
+                    Console.WriteLine(receiverAccount.Balance);
                     return true;
                 }
             }
@@ -149,7 +173,11 @@ namespace Technovert.BankApp.Services
             List<Transaction> transactions = new List<Transaction>();
             string bankId = bankservice.GetBankId(bankName);
             Bank bank = bankservice.SingleBank(bankId);
-            Account account = bank.Accounts.Single(ac => ac.Id == accountId);
+            Account account = bank.Accounts.SingleOrDefault(ac => ac.Id == accountId);
+            if (account == null)
+            {
+                throw new AccountNotFoundException("Account Not Found!");
+            }
             if (accountservice.ValidatePassword(account, password))
             {
                 return account.Transactions;
@@ -159,6 +187,41 @@ namespace Technovert.BankApp.Services
                 throw new IncorrectPasswordException("Incorrect Password! Enter correct password to retrieve your transactions");
             }
 
+        }
+        public bool RevertTransaction(string bankId, string accountId, string transactionId)
+        {
+            Bank bank = bankservice.SingleBank(bankId);
+            Account account = bank.Accounts.SingleOrDefault(ac => ac.Id == accountId);
+            
+            if (account == null)
+            {
+                throw new AccountNotFoundException("Account may have been removed!");
+            }
+            Transaction transaction = account.Transactions.SingleOrDefault(tr => tr.Id == transactionId);
+            if (transaction == null)
+            {
+                throw new TransactionNotFoundException("Transaction not Found!");
+            }
+            Account alternateAccount = bank.Accounts.SingleOrDefault(ac => ac.Id == transaction.DestinationaccountId);
+            if (alternateAccount == null)
+            {
+                throw new AccountNotFoundException("Account may have been removed!");
+            }
+            if (transaction.Type == TransactionType.Credit)
+            {
+                account.Transactions.Remove(transaction);
+                account.Balance -= transaction.Amount;
+                alternateAccount.Balance += transaction.Amount;
+                alternateAccount.Transactions.Remove(transaction);
+            }
+            if (transaction.Type == TransactionType.Debit)
+            {
+                account.Balance += transaction.Amount;
+                account.Transactions.Remove(transaction);
+                alternateAccount.Balance -= transaction.Amount;
+                alternateAccount.Transactions.Remove(transaction);
+            }
+            return true;
         }
         public string GenerateTransactionId(string bankId, string accountId)
         {
