@@ -33,6 +33,11 @@ namespace Technovert.BankApp.Services
                 throw new BankCreationException("Bank Creation Failed! It seems Bank Already Exists");
             }
         }
+        public IDictionary<string,decimal> FindCurrencies(string bankId)
+        {
+            Bank bank= this.banks.Find(m => m.Id == bankId);
+            return bank.currenciesAccepted;
+        }
         public string GetBankId(string name)
         {
             Bank bank=this.banks.Find(m => m.Name == name);

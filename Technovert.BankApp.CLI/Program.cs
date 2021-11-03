@@ -17,7 +17,7 @@ namespace Technovert.BankApp.CLI
             string bankName = Inputs.GetBankName();
             string bankId=bankService.CreateBank(bankName);
             
-            Console.WriteLine("Bank Id is"+bankId);
+            Console.WriteLine("Bank Id is "+bankId);
             bool isBankApplicationOpen = true;
             while (isBankApplicationOpen) {
                 ATMMessages.SelectUserTypeMsg();
@@ -197,12 +197,15 @@ namespace Technovert.BankApp.CLI
                                     try
                                     {
                                         ATMMessages.AccountDetailsProvidingMsg();
-                                        string bankname = Inputs.GetBankName();
+                                        string bankid = Inputs.GetBankId();
                                         string accountId = Inputs.GetAccountId();
-                                        string currencyName = Inputs.GetCurrencyName();
                                         string password = Inputs.GetPassword();
+                                        IDictionary<string, decimal> currencies = new Dictionary<string,decimal>();
+                                        currencies=bankService.FindCurrencies(bankid);
+                                        ATMMessages.PrintAllCurrenciesAvailableMsg((Dictionary<string, decimal>)currencies);
+                                        string currencyName = Inputs.GetCurrencyName();
                                         decimal amount = Inputs.GetDepositAmt();
-                                        if (transactionService.Deposit(bankname, accountId, password,currencyName, amount))
+                                        if (transactionService.Deposit(bankId, accountId, password,currencyName, amount))
                                         {
                                             ATMMessages.TransactionSuccessfulMsg();
                                         }

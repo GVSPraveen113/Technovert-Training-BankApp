@@ -93,5 +93,13 @@ namespace Technovert.BankApp.CLI
         {
             Console.WriteLine("Add New Currency!!");
         }
+        public static void PrintAllCurrenciesAvailableMsg(Dictionary<string,decimal> currencies)
+        {
+            Console.WriteLine("Select Any of the Currency Types from the following:");
+            foreach (KeyValuePair<string, decimal> entry in currencies)
+            {
+                Console.WriteLine(entry.Key + " : " + entry.Value);
+            }
+        }
     }
 }

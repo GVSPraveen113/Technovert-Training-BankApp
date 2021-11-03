@@ -46,7 +46,7 @@ namespace Technovert.BankApp.CLI
         }
         public static string GetCurrencyName()
         {
-            Console.WriteLine("Please enter the name of Currency");
+            Console.WriteLine("Please enter the name of Currency:");
             return Console.ReadLine();
         }
 
