@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Technovert.BankApp.Services;
 using Technovert.BankApp.Models;
+using System.Text.Json;
+using System.IO;
 using Technovert.BankApp.Models.Enums;
 
 namespace Technovert.BankApp.CLI
@@ -293,6 +295,7 @@ namespace Technovert.BankApp.CLI
                 }
                 else if(userType==UserType.ExitApplication)
                 {
+                    bankService.ExitApplication();
                     isBankApplicationOpen = false;
                 }
 

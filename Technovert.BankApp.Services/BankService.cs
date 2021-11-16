@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Text.Json;
+using System.IO;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Technovert.BankApp.Models;
 using Technovert.BankApp.Models.Exceptions;
@@ -13,10 +15,47 @@ namespace Technovert.BankApp.Services
         private List<Bank> banks { get; set; }
         public BankService()
         {
-            this.banks = new List<Bank>();
+            /*FileStream banksJson = new FileStream("F:/Visual Studio Code Projects/Technovert.BankApp/banks.json", FileMode.OpenOrCreate);
+            banksJson.Close();*/
+
+            string fileName = "F:/Visual Studio Code Projects/Technovert.BankApp/banks.json";
+            try
+            {
+                
+                var jsonString = File.ReadAllText(fileName);
+                this.banks = JsonSerializer.Deserialize<List<Bank>>(jsonString);
+            }
+            catch(FileNotFoundException)
+            {
+                File.Create("F:/Visual Studio Code Projects/Technovert.BankApp/banks.json");
+            }
+            catch (JsonException)
+            {
+                this.banks = new List<Bank>();
+            }
+            /*finally
+            {
+                fileName.Close();
+            }*/
+            //this.banks = new List<Bank>();
+            
         }
         public string CreateBank(string name)
         {
+            /*if(!File.Exists("F:/Visual Studio Code Projects/Technovert.BankApp/banks.json"))
+            {
+                File.Create("F:/Visual Studio Code Projects/Technovert.BankApp/banks.json");
+            }
+            var banksJson=File.ReadAllText("F:/Visual Studio Code Projects/Technovert.BankApp/banks.json");
+            try 
+            {
+                this.banks = JsonSerializer.Deserialize<List<Bank>>(banksJson);
+            }
+            catch (JsonException)
+            {
+                this.banks = new List<Bank>();
+            }
+            */
             if (!CheckBankExistsByName(name))
             {
                 Bank bank = new Bank
@@ -36,7 +75,7 @@ namespace Technovert.BankApp.Services
         public IDictionary<string,decimal> FindCurrencies(string bankId)
         {
             Bank bank= this.banks.Find(m => m.Id == bankId);
-            return bank.currenciesAccepted;
+            return bank.CurrenciesAccepted;
         }
         public string GetBankId(string name)
         {
@@ -69,15 +108,15 @@ namespace Technovert.BankApp.Services
         }
         public bool AddNewCurrency(string bankId,string currencyName,decimal currencyValue)
         {
-            Bank bank = this.banks.SingleOrDefault(m => m.Id == bankId);
-            if (bank.currenciesAccepted.ContainsKey(currencyName))
+            Bank bank = SingleBank(bankId);
+            if (bank.CurrenciesAccepted.ContainsKey(currencyName))
             {
                 throw new BankNotFoundException("Given Currency already exists ! Sorry Operation Cannot be performed");
             }
-            bank.currenciesAccepted.Add(currencyName, currencyValue);
+            bank.CurrenciesAccepted.Add(currencyName, currencyValue);
             return true;
         }
-        public bool AddServiceChargeSameBank(string bankId,decimal rtgs,decimal imps)
+        public bool AddServiceChargeSameBank(string bankId,decimal rtgs,decimal imps)//same method
         {
             Bank bank = banks.SingleOrDefault(bank => bank.Id == bankId);
             if (bank == null)
@@ -114,5 +153,12 @@ namespace Technovert.BankApp.Services
             }
 
         }
+        public bool ExitApplication()
+        {
+            string jsonBanks = JsonSerializer.Serialize(banks);
+            File.WriteAllText(@"F:\Visual Studio Code Projects\Technovert.BankApp",jsonBanks);     
+            return true;
+        }
     }
+   
 }

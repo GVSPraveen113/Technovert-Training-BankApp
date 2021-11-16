@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.IO;
 using System.Threading.Tasks;
 using Technovert.BankApp.Models;
 using Technovert.BankApp.Models.Exceptions;
@@ -30,7 +33,10 @@ namespace Technovert.BankApp.Services
                 Transactions = new List<Transaction>(),
                 //Status = (AccountStatus)TransactionType.Credit
             };
+            string json = JsonSerializer.Serialize(account);
+            File.AppendAllText(@"F:\Visual Studio Code Projects\Technovert.BankApp\accounts.json",json);
             bank.Accounts.Add(account);
+
             return account.Id;
         }
         public bool UpdateAccount(string bankId, string accountId, string name, bool gender)

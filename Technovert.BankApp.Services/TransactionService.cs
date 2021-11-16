@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Text.Json;
+using System.IO;
 using System.Threading.Tasks;
 using Technovert.BankApp.Models;
 using Technovert.BankApp.Models.Exceptions;
@@ -27,9 +28,9 @@ namespace Technovert.BankApp.Services
         {
             Bank bank = bankservice.SingleBank(bankId);
             decimal toINRConversion;
-            if (bank.currenciesAccepted.ContainsKey(currencyName))
+            if (bank.CurrenciesAccepted.ContainsKey(currencyName))
             {
-                toINRConversion = bank.currenciesAccepted[currencyName];
+                toINRConversion = bank.CurrenciesAccepted[currencyName];
             }
             else
             {
@@ -47,6 +48,9 @@ namespace Technovert.BankApp.Services
                     Type = (TransactionType.Credit),
                     On = DateTime.Now
                 });
+                /*string jsonTransaction = JsonSerializer.Serialize(transaction);
+                File.AppendAllText(@"F:\Visual Studio Code Projects\Technovert.BankApp\transactions.json", jsonTransaction);*/
+
                 Console.WriteLine(account.Balance);
                 return true;
             }
@@ -67,14 +71,20 @@ namespace Technovert.BankApp.Services
                 if (account.Balance >= withdraw)
                 {
                     account.Balance -= withdraw;
-                    account.Transactions.Add(new Transaction()
+                   
+                    Transaction transaction=new Transaction
                     {
                         Id = GenerateTransactionId(bankId, account.Id),
                         Amount=withdraw,
                         Type = (TransactionType.Debit),
                         On = DateTime.Now
-                    });
-                    Console.WriteLine(account.Balance);
+                    };
+                    account.Transactions.Add(transaction);
+                    string jsonTransaction = JsonSerializer.Serialize(transaction);
+                    File.AppendAllText(@"F:\Visual Studio Code Projects\Technovert.BankApp\transactions.json", jsonTransaction);
+
+
+                   Console.WriteLine(account.Balance);
                     return true;
                 }
                 else
@@ -153,6 +163,8 @@ namespace Technovert.BankApp.Services
                         Type = (TransactionType.Credit),
                         On = DateTime.Now
                     });
+                    /*string jsonTransaction = JsonSerializer.Serialize(transaction);
+                    File.AppendAllText(@"F:\Visual Studio Code Projects\Technovert.BankApp\transactions.json", jsonTransaction);*/
                     Console.WriteLine(senderAccount.Balance);
                     Console.WriteLine(receiverAccount.Balance);
                     return true;
