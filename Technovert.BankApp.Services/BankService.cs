@@ -13,13 +13,15 @@ namespace Technovert.BankApp.Services
     public class BankService
     {
         private List<Bank> banks { get; set; }
+        string jsonBanks = "F:/Visual Studio Code Projects/Technovert.BankApp/banks.json";
+        //F:\Visual Studio Code Projects\Technovert.BankApp\banks.json
         public BankService()
         {
             /*FileStream banksJson = new FileStream("F:/Visual Studio Code Projects/Technovert.BankApp/banks.json", FileMode.OpenOrCreate);
             banksJson.Close();*/
 
-            string fileName = "F:/Visual Studio Code Projects/Technovert.BankApp/banks.json";
-            try
+            
+            /*try
             {
                 
                 var jsonString = File.ReadAllText(fileName);
@@ -37,7 +39,7 @@ namespace Technovert.BankApp.Services
             {
                 fileName.Close();
             }*/
-            //this.banks = new List<Bank>();
+            this.banks = new List<Bank>();
             
         }
         public string CreateBank(string name)
@@ -49,7 +51,7 @@ namespace Technovert.BankApp.Services
             var banksJson=File.ReadAllText("F:/Visual Studio Code Projects/Technovert.BankApp/banks.json");
             try 
             {
-                this.banks = JsonSerializer.Deserialize<List<Bank>>(banksJson);
+                
             }
             catch (JsonException)
             {
@@ -58,13 +60,19 @@ namespace Technovert.BankApp.Services
             */
             if (!CheckBankExistsByName(name))
             {
+                
                 Bank bank = new Bank
                 {
                     Id = this.GenerateRandomBankId(name),
                     Name = name,
                     Accounts = new List<Account>()
                 };
+                //banks.Add(bank);
+                string jsonstring = File.ReadAllText(jsonBanks);
+                List<Bank> banks = JsonSerializer.Deserialize<List<Bank>>(jsonstring);
                 banks.Add(bank);
+                string json = JsonSerializer.Serialize(banks);
+                File.WriteAllText(jsonBanks, json);
                 return bank.Id;
             }
             else
@@ -88,6 +96,8 @@ namespace Technovert.BankApp.Services
         }
         public bool CheckBankExistsByName(string name)
         {
+            string jsonstring = File.ReadAllText(jsonBanks);
+            List<Bank> banks = JsonSerializer.Deserialize<List<Bank>>(jsonstring);
             return this.banks.Any(b => b.Name == name);
         }
         public bool CheckBankExistsById(string id)
@@ -155,8 +165,8 @@ namespace Technovert.BankApp.Services
         }
         public bool ExitApplication()
         {
-            string jsonBanks = JsonSerializer.Serialize(banks);
-            File.WriteAllText(@"F:\Visual Studio Code Projects\Technovert.BankApp",jsonBanks);     
+            /*string jsonBanks = JsonSerializer.Serialize(banks);
+            File.WriteAllText(@"F:\Visual Studio Code Projects\Technovert.BankApp",jsonBanks);*/     
             return true;
         }
     }
