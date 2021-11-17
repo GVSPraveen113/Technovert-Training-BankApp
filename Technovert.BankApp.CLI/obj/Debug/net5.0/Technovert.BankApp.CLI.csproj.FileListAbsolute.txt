@@ -18,4 +18,3 @@ F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.CLI\obj\Deb
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.CLI\obj\Debug\net5.0\ref\Technovert.BankApp.CLI.dll
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.CLI\obj\Debug\net5.0\Technovert.BankApp.CLI.pdb
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.CLI\obj\Debug\net5.0\Technovert.BankApp.CLI.genruntimeconfig.cache
-F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.CLI\obj\Debug\net5.0\Technovert.BankApp.CLI.csproj.CopyComplete

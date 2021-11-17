@@ -4,6 +4,7 @@ using Technovert.BankApp.Services;
 using Technovert.BankApp.Models;
 using System.Text.Json;
 using System.IO;
+using Technovert.BankApp.Models.Exceptions;
 using Technovert.BankApp.Models.Enums;
 
 namespace Technovert.BankApp.CLI
@@ -17,9 +18,20 @@ namespace Technovert.BankApp.CLI
             TransactionService  transactionService= new TransactionService(bankService,accountService);
             ATMMessages.BankCreationMsg();
             string bankName = Inputs.GetBankName();
-            string bankId=bankService.CreateBank(bankName);
+            string bankId;
+            try
+            {
+                string bankIdGenerated = bankService.CreateBank(bankName);
+                Console.WriteLine("Bank Id is " + bankIdGenerated);
+            }
+            catch(BankCreationException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            Console.WriteLine("Enter the bank Id of the bank you want to use");
+            bankId = Console.ReadLine();
             
-            Console.WriteLine("Bank Id is "+bankId);
+            
             bool isBankApplicationOpen = true;
             while (isBankApplicationOpen) {
                 ATMMessages.SelectUserTypeMsg();
@@ -298,7 +310,6 @@ namespace Technovert.BankApp.CLI
                     bankService.ExitApplication();
                     isBankApplicationOpen = false;
                 }
-
             }
         }
     }
