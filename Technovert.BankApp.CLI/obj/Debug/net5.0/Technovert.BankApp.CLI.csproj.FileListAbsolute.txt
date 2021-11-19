@@ -14,6 +14,7 @@ F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.CLI\obj\Deb
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.CLI\obj\Debug\net5.0\Technovert.BankApp.CLI.AssemblyInfoInputs.cache
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.CLI\obj\Debug\net5.0\Technovert.BankApp.CLI.AssemblyInfo.cs
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.CLI\obj\Debug\net5.0\Technovert.BankApp.CLI.csproj.CoreCompileInputs.cache
+F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.CLI\obj\Debug\net5.0\Technovert.BankApp.CLI.csproj.CopyComplete
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.CLI\obj\Debug\net5.0\Technovert.BankApp.CLI.dll
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.CLI\obj\Debug\net5.0\ref\Technovert.BankApp.CLI.dll
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.CLI\obj\Debug\net5.0\Technovert.BankApp.CLI.pdb

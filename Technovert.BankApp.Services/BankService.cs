@@ -14,6 +14,7 @@ namespace Technovert.BankApp.Services
     {
         private List<Bank> banks { get; set; }
         string jsonBanks = "F:/Visual Studio Code Projects/Technovert.BankApp/banks.json";
+
         //F:\Visual Studio Code Projects\Technovert.BankApp\banks.json
         public BankService()
         {
@@ -33,10 +34,10 @@ namespace Technovert.BankApp.Services
                     Accounts = new List<Account>()
                 };
                 //banks.Add(bank);
-                /*string jsonstring = File.ReadAllText(jsonBanks);
-                List<Bank> banks = JsonSerializer.Deserialize<List<Bank>>(jsonstring);*/
-                banks.Add(bank);
                 
+                banks.Add(bank);
+                string json = JsonSerializer.Serialize(banks);
+                File.WriteAllText(jsonBanks, json);
                 return bank.Id;
             }
             else
@@ -88,6 +89,8 @@ namespace Technovert.BankApp.Services
                 throw new BankNotFoundException("Given Currency already exists ! Sorry Operation Cannot be performed");
             }
             bank.CurrenciesAccepted.Add(currencyName, currencyValue);
+            string json = JsonSerializer.Serialize(banks);
+            File.WriteAllText(jsonBanks, json);
             return true;
         }
         public bool AddServiceChargeSameBank(string bankId,decimal rtgs,decimal imps)//same method
@@ -99,6 +102,8 @@ namespace Technovert.BankApp.Services
             }
             bank.RTGSSameBank = rtgs;
             bank.IMPSSameBank = imps;
+            string json = JsonSerializer.Serialize(banks);
+            File.WriteAllText(jsonBanks, json);
             return true;
         }
         public bool AddServiceChargeDiffBank(string bankId, decimal rtgs, decimal imps)
@@ -110,6 +115,8 @@ namespace Technovert.BankApp.Services
             }
             bank.RTGSDiffBank = rtgs;
             bank.IMPSDiffBank = imps;
+            string json = JsonSerializer.Serialize(banks);
+            File.WriteAllText(jsonBanks, json);
             return true;
         }
 
@@ -126,6 +133,12 @@ namespace Technovert.BankApp.Services
                 return bankName.Substring(0, 3) + date; 
             }
 
+        }
+        public bool saveJson()
+        {
+            string json = JsonSerializer.Serialize(banks);
+            File.WriteAllText(jsonBanks, json);
+            return true;
         }
         public bool ExitApplication()
         {

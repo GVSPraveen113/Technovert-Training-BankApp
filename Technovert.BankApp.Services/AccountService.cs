@@ -14,6 +14,7 @@ namespace Technovert.BankApp.Services
     public class AccountService
     {
         private readonly BankService bankService;
+        string jsonBanks = "F:/Visual Studio Code Projects/Technovert.BankApp/banks.json";
         public AccountService(BankService bankService)
         {
             this.bankService = bankService;
@@ -34,10 +35,8 @@ namespace Technovert.BankApp.Services
                 Transactions = new List<Transaction>(),
                 //Status = (AccountStatus)TransactionType.Credit
             };
-            string json = JsonSerializer.Serialize(account);
-            File.AppendAllText(@"F:\Visual Studio Code Projects\Technovert.BankApp\accounts.json",json);
             bank.Accounts.Add(account);
-
+            bankService.saveJson();
             return account.Id;
         }
         public bool UpdateAccount(string bankId, string accountId, string name, bool gender)
@@ -46,6 +45,7 @@ namespace Technovert.BankApp.Services
             Account account = SingleAccount(bank, accountId);
             account.Name = name;
             account.isMale = gender;
+            bankService.saveJson();
             return true;
         }
         public bool DeleteAccount(string bankId, string accountId)

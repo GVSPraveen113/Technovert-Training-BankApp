@@ -14,19 +14,19 @@ namespace Technovert.BankApp.Services
     public class TransactionService
     {
         //AccountService as = new AccountService();
-        private readonly BankService bankservice;
+        private readonly BankService bankService;
         private readonly AccountService accountservice;
        
         public TransactionService(BankService bankService,AccountService accountService)
         {
-            this.bankservice = bankService;
+            this.bankService = bankService;
             this.accountservice = accountService;
         }
         
          
         public bool Deposit(string bankId, string accountId, string password, string currencyName, decimal deposit)
         {
-            Bank bank = bankservice.SingleBank(bankId);
+            Bank bank = bankService.SingleBank(bankId);
             decimal toINRConversion;
             if (bank.CurrenciesAccepted.ContainsKey(currencyName))
             {
@@ -50,7 +50,7 @@ namespace Technovert.BankApp.Services
                 });
                 /*string jsonTransaction = JsonSerializer.Serialize(transaction);
                 File.AppendAllText(@"F:\Visual Studio Code Projects\Technovert.BankApp\transactions.json", jsonTransaction);*/
-
+                bankService.saveJson();
                 Console.WriteLine(account.Balance);
                 return true;
             }
@@ -64,7 +64,7 @@ namespace Technovert.BankApp.Services
 
         public bool Withdraw(string bankId, string accountId, string password, decimal withdraw)
         {
-            Bank bank = bankservice.SingleBank(bankId);
+            Bank bank = bankService.SingleBank(bankId);
             Account account = accountservice.SingleAccount(bank, accountId);
             if (accountservice.ValidatePassword(account, password))
             {
@@ -85,6 +85,7 @@ namespace Technovert.BankApp.Services
 
 
                    Console.WriteLine(account.Balance);
+                    bankService.saveJson();
                     return true;
                 }
                 else
@@ -101,13 +102,13 @@ namespace Technovert.BankApp.Services
         }
         public bool TransferMoney(string senderBankId, string senderActId, string password, string recieverBankId, string receiverActId, TransactionCharge transactionCharge, decimal amountTransfered)
         {
-            Bank senderBank = bankservice.SingleBank(senderBankId);
+            Bank senderBank = bankService.SingleBank(senderBankId);
             Account senderAccount = senderBank.Accounts.SingleOrDefault(ac => ac.Id == senderActId);
             if (senderAccount == null)
             {
                 throw new AccountNotFoundException("Account Not Found! Please Check");
             }
-            Bank receiverBank = bankservice.SingleBank(recieverBankId);
+            Bank receiverBank = bankService.SingleBank(recieverBankId);
             Account receiverAccount = senderBank.Accounts.SingleOrDefault(ac => ac.Id == receiverActId);
             if (receiverAccount == null)
             {
@@ -167,6 +168,7 @@ namespace Technovert.BankApp.Services
                     File.AppendAllText(@"F:\Visual Studio Code Projects\Technovert.BankApp\transactions.json", jsonTransaction);*/
                     Console.WriteLine(senderAccount.Balance);
                     Console.WriteLine(receiverAccount.Balance);
+                    bankService.saveJson();
                     return true;
                 }
             }
@@ -178,8 +180,8 @@ namespace Technovert.BankApp.Services
         public List<Transaction> GetTransactions(string bankName, string accountId, string password)
         {
             List<Transaction> transactions = new List<Transaction>();
-            string bankId = bankservice.GetBankId(bankName);
-            Bank bank = bankservice.SingleBank(bankId);
+            string bankId = bankService.GetBankId(bankName);
+            Bank bank = bankService.SingleBank(bankId);
             Account account = bank.Accounts.SingleOrDefault(ac => ac.Id == accountId);
             if (account == null)
             {
@@ -197,7 +199,7 @@ namespace Technovert.BankApp.Services
         }
         public bool RevertTransaction(string bankId, string accountId, string transactionId)
         {
-            Bank bank = bankservice.SingleBank(bankId);
+            Bank bank = bankService.SingleBank(bankId);
             Account account = bank.Accounts.SingleOrDefault(ac => ac.Id == accountId);
             
             if (account == null)
@@ -228,6 +230,7 @@ namespace Technovert.BankApp.Services
                 alternateAccount.Balance -= transaction.Amount;
                 alternateAccount.Transactions.Remove(transaction);
             }
+            bankService.saveJson();
             return true;
         }
         public string GenerateTransactionId(string bankId, string accountId)
