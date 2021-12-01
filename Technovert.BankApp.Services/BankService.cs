@@ -7,20 +7,21 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Technovert.BankApp.Models;
 using Technovert.BankApp.Models.Exceptions;
+using MySql.Data.MySqlClient;
 
 namespace Technovert.BankApp.Services
 {
     public class BankService
     {
-        private List<Bank> banks { get; set; }
-        string jsonBanks = "F:/Visual Studio Code Projects/Technovert.BankApp/banks.json";
+        /*string cs = @"server=localhost;userid=praveengvs;password=1234;database=banksdb";
+        using var con = new MySqlConnection(cs);
+        con.Open();*/
 
-        //F:\Visual Studio Code Projects\Technovert.BankApp\banks.json
+        private List<Bank> banks { get; set; }
+        string jsonBanks=Path.Combine(Directory.GetCurrentDirectory(), @"..\banks.json"); 
         public BankService()
         {
-            string jsonstring = File.ReadAllText(jsonBanks);
-            this.banks = JsonSerializer.Deserialize<List<Bank>>(jsonstring);
-            //this.banks = new List<Bank>();
+            
         }
         public string CreateBank(string name)
         {
@@ -133,6 +134,12 @@ namespace Technovert.BankApp.Services
                 return bankName.Substring(0, 3) + date; 
             }
 
+        }
+        public bool retreiveJson()
+        {
+            string jsonstring = File.ReadAllText(jsonBanks);
+            this.banks = JsonSerializer.Deserialize<List<Bank>>(jsonstring);
+            return true;
         }
         public bool saveJson()
         {

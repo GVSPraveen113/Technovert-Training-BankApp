@@ -58,6 +58,7 @@ namespace Technovert.BankApp.Services
             }
             
             bank.Accounts.Remove(account);
+            bankService.saveJson();
             return true;
         }
         public Account SingleAccount(Bank bank,string accountId)

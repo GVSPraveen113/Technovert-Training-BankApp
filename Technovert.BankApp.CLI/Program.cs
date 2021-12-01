@@ -14,6 +14,7 @@ namespace Technovert.BankApp.CLI
         static void Main(string[] args)
         {
             BankService bankService = new BankService();
+            bankService.retreiveJson();
             AccountService accountService= new AccountService(bankService);
             TransactionService  transactionService= new TransactionService(bankService,accountService);
             ATMMessages.BankCreationMsg();
