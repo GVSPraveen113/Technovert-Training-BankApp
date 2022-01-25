@@ -16,14 +16,15 @@ namespace Technovert.BankApp.Services
         //AccountService as = new AccountService();
         private readonly BankService bankService;
         private readonly AccountService accountservice;
-       
-        public TransactionService(BankService bankService,AccountService accountService)
+        BankDbContext bankDb = new BankDbContext();
+
+        public TransactionService(BankService bankService, AccountService accountService)
         {
             this.bankService = bankService;
             this.accountservice = accountService;
         }
-        
-         
+
+
         public bool Deposit(string bankId, string accountId, string password, string currencyName, decimal deposit)
         {
             Bank bank = bankService.SingleBank(bankId);
@@ -44,20 +45,21 @@ namespace Technovert.BankApp.Services
                 account.Transactions.Add(new Transaction()
                 {
                     Id = GenerateTransactionId(bankId, account.Id),
-                    Amount=deposit,
+                    Amount = deposit,
                     Type = (TransactionType.Credit),
                     On = DateTime.Now
                 });
                 bankService.saveJson();
+                bankDb.SaveChanges();
                 return true;
             }
             else
             {
                 throw new IncorrectPasswordException("Password is incorrect!!");
             }
-            
+
         }
-        
+
 
         public bool Withdraw(string bankId, string accountId, string password, decimal withdraw)
         {
@@ -68,16 +70,18 @@ namespace Technovert.BankApp.Services
                 if (account.Balance >= withdraw)
                 {
                     account.Balance -= withdraw;
-                   
-                    Transaction transaction=new Transaction
+
+                    Transaction transaction = new Transaction
                     {
                         Id = GenerateTransactionId(bankId, account.Id),
-                        Amount=withdraw,
+                        Amount = withdraw,
                         Type = (TransactionType.Debit),
                         On = DateTime.Now
                     };
                     account.Transactions.Add(transaction);
                     bankService.saveJson();
+                    bankDb.Transactions.Add(transaction);
+                    bankDb.SaveChanges();
                     return true;
                 }
                 else
@@ -89,8 +93,8 @@ namespace Technovert.BankApp.Services
             {
                 throw new IncorrectPasswordException("Enter Correct Password! ");
             }
-                
-            
+
+
         }
         public bool TransferMoney(string senderBankId, string senderActId, string password, string recieverBankId, string receiverActId, TransactionCharge transactionCharge, decimal amountTransfered)
         {
@@ -193,7 +197,7 @@ namespace Technovert.BankApp.Services
         {
             Bank bank = bankService.SingleBank(bankId);
             Account account = bank.Accounts.SingleOrDefault(ac => ac.Id == accountId);
-            
+
             if (account == null)
             {
                 throw new AccountNotFoundException("Account may have been removed!");
@@ -228,7 +232,7 @@ namespace Technovert.BankApp.Services
         public string GenerateTransactionId(string bankId, string accountId)
         {
             DateTime dt = new DateTime();
-            if(bankId.Length<3 || accountId.Length < 3)
+            if (bankId.Length < 3 || accountId.Length < 3)
             {
                 throw new IncorrectArgumentRangeException(" BankId and AccountId Length must be greater than or equal to 3");
             }

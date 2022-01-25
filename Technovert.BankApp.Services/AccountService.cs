@@ -8,62 +8,77 @@ using System.IO;
 using System.Threading.Tasks;
 using Technovert.BankApp.Models;
 using Technovert.BankApp.Models.Exceptions;
+using Technovert.BankApp.Services.Interfaces;
 
 namespace Technovert.BankApp.Services
 {
-    public class AccountService
+    public class AccountService: IAccountService
     {
-        private readonly BankService bankService;
-        string jsonBanks = "F:/Visual Studio Code Projects/Technovert.BankApp/banks.json";
-        public AccountService(BankService bankService)
+        BankDbContext bankDb = new BankDbContext();
+        public AccountService()
         {
-            this.bankService = bankService;
-
+        
         }
-        public string CreateAccount(string bankId, string accountHolderName, string password, decimal initialDeposit, bool gender)
+        public string CreateAccount(string bankId, Account accountDTO/*string accountHolderName, string password, decimal initialDeposit, bool gender*/)
         {
-            
-            Bank bank = bankService.SingleBank(bankId);
-            
+            Bank bank = bankDb.Banks.SingleOrDefault(b => b.Id == bankId);
+
             Account account = new Account()
             {
-                Name = accountHolderName,
-                Id = GenerateAccountId(accountHolderName),
-                Password = password,
-                Balance = initialDeposit,
-                isMale = gender,
+                Name = accountDTO.Name,
+                Id = GenerateAccountId(accountDTO.Name),
+                Password = accountDTO.Password,
+                Balance = accountDTO.Balance,
+                isMale = accountDTO.isMale,
                 Transactions = new List<Transaction>(),
-                //Status = (AccountStatus)TransactionType.Credit
+                Status = (AccountStatus)TransactionType.Credit
             };
-            bank.Accounts.Add(account);
-            bankService.saveJson();
+            //bank.Accounts.Add(account);
+            bankDb.Accounts.Add(account);
+            bankDb.SaveChanges();
             return account.Id;
         }
-        public bool UpdateAccount(string bankId, string accountId, string name, bool gender)
+        public bool UpdateAccount(string bankId, string accountId, Account accountDTO)
         {
-            Bank bank = bankService.SingleBank(bankId);
-            Account account = SingleAccount(bank, accountId);
-            account.Name = name;
-            account.isMale = gender;
-            bankService.saveJson();
+            Bank bank = SingleBank(bankId);
+            Account account = bankDb.Accounts.Where(acc => acc.Id == accountId).First();
+            account.Name = accountDTO.Name;
+            account.isMale = accountDTO.isMale;
+            //bankService.saveJson();
+            bankDb.SaveChanges();
             return true;
         }
         public bool DeleteAccount(string bankId, string accountId)
         {
-            Bank bank = bankService.SingleBank(bankId);
-            Account account = bank.Accounts.SingleOrDefault(account => account.Id == accountId);
+            Bank bank = SingleBank(bankId);
+            Account account = bankDb.Accounts.SingleOrDefault(account => account.Id == accountId);
             if (account == null)
             {
                 throw new AccountNotFoundException("Account isn't found!");
             }
-            
-            bank.Accounts.Remove(account);
-            bankService.saveJson();
+
+            //bank.Accounts.Remove(account);
+            //bankService.saveJson();
+            bankDb.Accounts.Remove(account);
+            bankDb.SaveChanges();
             return true;
         }
-        public Account SingleAccount(Bank bank,string accountId)
+        public Bank SingleBank(string bankId)
         {
-            Account account = bank.Accounts.SingleOrDefault(m => m.Id == accountId);
+            List<Bank> banksList = bankDb.Banks.ToList();
+            Bank bank = banksList.SingleOrDefault(m => m.Id == bankId);
+            if (bank == null)
+            {
+                throw new BankNotFoundException("The Bank details provided are incorrect. Check details again");
+            }
+            else
+            {
+                return bank;
+            }
+        }
+        public Account SingleAccount(Bank bank, string accountId)
+        {
+            Account account = bankDb.Accounts.SingleOrDefault(m => m.Id == accountId);
             if (account == null)
             {
                 throw new AccountNotFoundException("Account is not Found in the Database.Please recheck your credentials or create a new account");
@@ -73,7 +88,12 @@ namespace Technovert.BankApp.Services
                 return account;
             }
         }
-        public bool ValidatePassword(Account account,string password)
+        public List<Account> GetAllAccounts(string bankId)
+        {
+            Bank bank = SingleBank(bankId);
+            return bank.Accounts.ToList();
+        }
+        public bool ValidatePassword(Account account, string password)
         {
             if (account.Password == password)
             {
@@ -86,9 +106,8 @@ namespace Technovert.BankApp.Services
         }
         private string GenerateAccountId(string accountHolderName)
         {
-            DateTime dt = new DateTime();
-            string date = dt.ToShortDateString();
-            return accountHolderName.Substring(0, 3) + date;
+            string dateTime = DateTime.Now.ToString("ddmmyyyy");
+            return accountHolderName.Substring(0, 3) + dateTime;
         }
     }
 }

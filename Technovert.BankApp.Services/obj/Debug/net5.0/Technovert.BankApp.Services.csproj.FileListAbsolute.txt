@@ -12,3 +12,6 @@ F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.Services\ob
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.Services\obj\Debug\net5.0\Technovert.BankApp.Services.dll
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.Services\obj\Debug\net5.0\ref\Technovert.BankApp.Services.dll
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.Services\obj\Debug\net5.0\Technovert.BankApp.Services.pdb
+F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.Services\bin\Debug\net5.0\Technovert.BankApp.Services.runtimeconfig.json
+F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.Services\bin\Debug\net5.0\Technovert.BankApp.Services.runtimeconfig.dev.json
+F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.Services\obj\Debug\net5.0\Technovert.BankApp.Services.genruntimeconfig.cache

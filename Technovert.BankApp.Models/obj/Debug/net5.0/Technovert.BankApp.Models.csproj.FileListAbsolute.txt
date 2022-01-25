@@ -9,3 +9,7 @@ F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.Models\obj\
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.Models\obj\Debug\net5.0\Technovert.BankApp.Models.dll
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.Models\obj\Debug\net5.0\ref\Technovert.BankApp.Models.dll
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.Models\obj\Debug\net5.0\Technovert.BankApp.Models.pdb
+F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.Models\obj\Debug\net5.0\Technovert.BankApp.Models.csproj.AssemblyReference.cache
+F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.Models\bin\Debug\net5.0\Technovert.BankApp.Models.runtimeconfig.json
+F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.Models\bin\Debug\net5.0\Technovert.BankApp.Models.runtimeconfig.dev.json
+F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.Models\obj\Debug\net5.0\Technovert.BankApp.Models.genruntimeconfig.cache

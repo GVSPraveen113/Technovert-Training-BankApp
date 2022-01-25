@@ -13,9 +13,9 @@ namespace Technovert.BankApp.Models
         public List<Account> Accounts{ get; set; }
 
         public IDictionary<string, decimal> CurrenciesAccepted = new Dictionary<string, decimal>();
-        public DateTime CreatedOn { get; set; } //Audit Properties
+        public DateTime? CreatedOn { get; set; } //Audit Properties
         public string CreatedBy { get; set; }
-        public DateTime UpdatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
         public string UpdatedBy { get; set; }
         public Charges charges { get; set; }
         public decimal RTGSSameBank { get; set; } = 0;

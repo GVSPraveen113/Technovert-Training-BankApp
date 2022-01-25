@@ -17,5 +17,7 @@ namespace Technovert.BankApp.Models
         public bool isMale { get; set; }
         public AccountStatus Status { get; set; }
 
+        //Navigation property
+        //public string? BankId { get; set; }
     }
 }

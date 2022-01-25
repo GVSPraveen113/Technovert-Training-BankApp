@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31727.386
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Technovert.BankApp.CLI", "Technovert.BankApp.CLI\Technovert.BankApp.CLI.csproj", "{950AEB63-E3B9-4936-9BB7-8B884C0EC552}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Technovert.BankApp.CLI", "Technovert.BankApp.CLI\Technovert.BankApp.CLI.csproj", "{950AEB63-E3B9-4936-9BB7-8B884C0EC552}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Technovert.BankApp.Models", "Technovert.BankApp.Models\Technovert.BankApp.Models.csproj", "{9F58678D-AC33-4BEB-B6F6-83B84EDE865A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Technovert.BankApp.Models", "Technovert.BankApp.Models\Technovert.BankApp.Models.csproj", "{9F58678D-AC33-4BEB-B6F6-83B84EDE865A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Technovert.BankApp.Services", "Technovert.BankApp.Services\Technovert.BankApp.Services.csproj", "{4A48BC12-ED0C-4128-9383-E4368EA1C503}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Technovert.BankApp.Services", "Technovert.BankApp.Services\Technovert.BankApp.Services.csproj", "{8091275F-5718-4276-9856-1E1EF9C384AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Technovert.BankApp.API", "Technovert.BankApp.API\Technovert.BankApp.API.csproj", "{E9126BA0-886B-4FF1-AEAC-A73380A83E06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +25,14 @@ Global
 		{9F58678D-AC33-4BEB-B6F6-83B84EDE865A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F58678D-AC33-4BEB-B6F6-83B84EDE865A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F58678D-AC33-4BEB-B6F6-83B84EDE865A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A48BC12-ED0C-4128-9383-E4368EA1C503}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A48BC12-ED0C-4128-9383-E4368EA1C503}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A48BC12-ED0C-4128-9383-E4368EA1C503}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A48BC12-ED0C-4128-9383-E4368EA1C503}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8091275F-5718-4276-9856-1E1EF9C384AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8091275F-5718-4276-9856-1E1EF9C384AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8091275F-5718-4276-9856-1E1EF9C384AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8091275F-5718-4276-9856-1E1EF9C384AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9126BA0-886B-4FF1-AEAC-A73380A83E06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9126BA0-886B-4FF1-AEAC-A73380A83E06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9126BA0-886B-4FF1-AEAC-A73380A83E06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9126BA0-886B-4FF1-AEAC-A73380A83E06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

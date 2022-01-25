@@ -15,15 +15,15 @@ namespace Technovert.BankApp.CLI
         {
             BankService bankService = new BankService();
             bankService.retreiveJson();
-            AccountService accountService= new AccountService(bankService);
+            AccountService accountService= new AccountService();
             TransactionService  transactionService= new TransactionService(bankService,accountService);
             ATMMessages.BankCreationMsg();
             string bankName = Inputs.GetBankName();
             string bankId;
             try
             {
-                string bankIdGenerated = bankService.CreateBank(bankName);
-                Console.WriteLine("Bank Id is " + bankIdGenerated);
+                //string bankIdGenerated = bankService.CreateBank(bankName);
+                //Console.WriteLine("Bank Id is " + bankIdGenerated);
             }
             catch(BankCreationException ex)
             {
@@ -55,7 +55,7 @@ namespace Technovert.BankApp.CLI
                                         string password = Inputs.SetPassword();
                                         decimal amount = Inputs.GetInitialDeposit();
                                         bool gender = Inputs.SetGender();
-                                        Console.WriteLine("Your account is created with Id " + accountService.CreateAccount(bankIdentity, accountHolderName, password, amount, gender));
+                                        //Console.WriteLine("Your account is created with Id " + accountService.CreateAccount(bankIdentity, accountHolderName, password, amount, gender));
                                     }
                                     catch (Exception ex)
                                     {
