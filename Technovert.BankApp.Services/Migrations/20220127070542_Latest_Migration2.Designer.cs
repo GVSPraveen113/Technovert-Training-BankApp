@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Technovert.BankApp.Services;
 
 namespace Technovert.BankApp.Services.Migrations
 {
     [DbContext(typeof(BankDbContext))]
-    partial class BankDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220127070542_Latest_Migration2")]
+    partial class Latest_Migration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,7 +29,10 @@ namespace Technovert.BankApp.Services.Migrations
                     b.Property<decimal>("Balance")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("BankId")
+                    b.Property<int>("BankId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BankId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
@@ -44,7 +49,7 @@ namespace Technovert.BankApp.Services.Migrations
 
                     b.HasKey("AccountId");
 
-                    b.HasIndex("BankId");
+                    b.HasIndex("BankId1");
 
                     b.ToTable("Accounts");
                 });
@@ -97,29 +102,27 @@ namespace Technovert.BankApp.Services.Migrations
                     b.Property<string>("TransactionId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("AccountId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("DestinationAccountId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Mode")
-                        .HasColumnType("int");
+                    b.Property<string>("DestinationaccountId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("On")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("SourceAccountId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
+                    b.Property<string>("sourceAccountId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("TransactionId");
 
-                    b.HasIndex("DestinationAccountId");
-
-                    b.HasIndex("SourceAccountId");
+                    b.HasIndex("AccountId");
 
                     b.ToTable("Transactions");
                 });
@@ -128,25 +131,16 @@ namespace Technovert.BankApp.Services.Migrations
                 {
                     b.HasOne("Technovert.BankApp.Models.Bank", "Bank")
                         .WithMany("Accounts")
-                        .HasForeignKey("BankId");
+                        .HasForeignKey("BankId1");
 
                     b.Navigation("Bank");
                 });
 
             modelBuilder.Entity("Technovert.BankApp.Models.Transaction", b =>
                 {
-                    b.HasOne("Technovert.BankApp.Models.Account", "DestinationAccount")
-                        .WithMany()
-                        .HasForeignKey("DestinationAccountId");
-
-                    b.HasOne("Technovert.BankApp.Models.Account", "SourceAccount")
+                    b.HasOne("Technovert.BankApp.Models.Account", null)
                         .WithMany("Transactions")
-                        .HasForeignKey("SourceAccountId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("DestinationAccount");
-
-                    b.Navigation("SourceAccount");
+                        .HasForeignKey("AccountId");
                 });
 
             modelBuilder.Entity("Technovert.BankApp.Models.Account", b =>

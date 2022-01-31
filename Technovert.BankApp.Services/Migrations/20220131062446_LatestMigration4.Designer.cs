@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Technovert.BankApp.Services;
 
 namespace Technovert.BankApp.Services.Migrations
 {
     [DbContext(typeof(BankDbContext))]
-    partial class BankDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220131062446_LatestMigration4")]
+    partial class LatestMigration4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,9 +104,6 @@ namespace Technovert.BankApp.Services.Migrations
 
                     b.Property<string>("DestinationAccountId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Mode")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("On")
                         .HasColumnType("datetime2");

@@ -38,6 +38,7 @@ namespace Technovert.BankApp.API
             });
             services.AddScoped<IBankService, BankService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<ITransactionService, TransactionServices>();
             services.AddAutoMapper(typeof(AutoMapperProfile));
         }
 

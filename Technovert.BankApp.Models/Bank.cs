@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Technovert.BankApp.Models
 {
+    [Table("Banks")]
     public class Bank
     {
-        public string Id { get; set; }
+        [Key]
+        public string BankId { get; set; }
         public string Name { get; set;}
-        public List<Account> Accounts{ get; set; }
+        public ICollection<Account> Accounts { get; set; }
 
         public IDictionary<string, decimal> CurrenciesAccepted = new Dictionary<string, decimal>();
         public DateTime? CreatedOn { get; set; } //Audit Properties

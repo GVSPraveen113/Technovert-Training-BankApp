@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Technovert.BankApp.Models;
 using Technovert.BankApp.Models.Exceptions;
 using Technovert.BankApp.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 //using MySql.Data.MySqlClient;
 
 namespace Technovert.BankApp.Services
@@ -31,7 +32,7 @@ namespace Technovert.BankApp.Services
             {
                 Bank bank = new Bank
                 {
-                    Id = this.GenerateRandomBankId(bankDTO.Name),
+                    BankId = this.GenerateRandomBankId(bankDTO.Name),
                     Name = bankDTO.Name,
                     Accounts = new List<Account>(),
                     CreatedBy = "Admin",
@@ -43,7 +44,7 @@ namespace Technovert.BankApp.Services
                 /*banks.Add(bank);
                 string json = JsonSerializer.Serialize(banks);
                 File.WriteAllText(jsonBanks, json);*/
-                return bank.Id;
+                return bank.BankId;
             }
             else
             {
@@ -53,7 +54,7 @@ namespace Technovert.BankApp.Services
         public IDictionary<string, decimal> FindCurrencies(string bankId)
         {
             List<Bank> banksList = bankDb.Banks.ToList();
-            Bank bank = banksList.Find(m => m.Id == bankId);
+            Bank bank = banksList.Find(m => m.BankId == bankId);
             return bank.CurrenciesAccepted;
         }
         public string GetBankId(string name)
@@ -64,7 +65,7 @@ namespace Technovert.BankApp.Services
             {
                 throw new BankNotFoundException("Bank Id can't be retrieved. Please check whether this bank exists");
             }
-            return bank.Id;
+            return bank.BankId;
         }
         public bool CheckBankExistsByName(string name)
         {
@@ -76,12 +77,12 @@ namespace Technovert.BankApp.Services
         public bool CheckBankExistsById(string id)
         {
             List<Bank> banksList = bankDb.Banks.ToList();
-            return banksList.Any(b => b.Id == id);
+            return banksList.Any(b => b.BankId == id);
         }
         public Bank SingleBank(string bankId)
         {
             List<Bank> banksList = bankDb.Banks.ToList();
-            Bank bank = banksList.SingleOrDefault(m => m.Id == bankId);
+            Bank bank = banksList.SingleOrDefault(m => m.BankId == bankId);
             if (bank == null)
             {
                 throw new BankNotFoundException("The Bank details provided are incorrect. Check details again");
@@ -149,7 +150,7 @@ namespace Technovert.BankApp.Services
         }
         public List<Bank> GetAllBanks()
         {
-            return bankDb.Banks.ToList();
+            return bankDb.Banks.Include(b => b.Accounts).ToList();
         }
         public bool UpdateBank(string bankId,Bank bankDTO)
         {

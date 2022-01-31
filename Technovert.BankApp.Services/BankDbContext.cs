@@ -16,6 +16,30 @@ namespace Technovert.BankApp.Services
         public DbSet<Transaction> Transactions { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
            => options.UseSqlServer(@"Data Source=(localdb)\mssqllocaldb;Initial Catalog=AutomatedTellerMachine;Integrated Security=True");
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+
+
+            modelBuilder.Entity<Bank>()
+                .HasMany<Account>(b => b.Accounts)
+                .WithOne(a => a.Bank);
+
+            //modelBuilder.Entity<Bank>().HasMany<CurrencyType>(b => b.)
+
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.SourceAccount)
+                .WithMany(sa => sa.Transactions)
+                .HasForeignKey(t => t.SourceAccountId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            /*modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.DestinationAccount)
+                .WithMany(sa=>sa.Transactions)
+                .HasForeignKey(t => t.DestinationAccountId)
+                .OnDelete(DeleteBehavior.Restrict);*/
+        }
 
     }
 }

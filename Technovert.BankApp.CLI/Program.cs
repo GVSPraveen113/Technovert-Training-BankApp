@@ -70,9 +70,9 @@ namespace Technovert.BankApp.CLI
                                         string accountId = Inputs.GetAccountId();
                                         string updatedName = Inputs.GetName();
                                         bool updatedGender = Inputs.SetGender();
-                                        if (accountService.UpdateAccount(bankIdentity, accountId, updatedName, updatedGender)){
-                                            ATMMessages.SuccessMsg();
-                                        }
+                                        //if (accountService.UpdateAccount(bankIdentity, accountId, updatedName, updatedGender)){
+                                           // ATMMessages.SuccessMsg();
+                                        //}
 
                                     }
                                     catch (Exception ex)
@@ -155,7 +155,7 @@ namespace Technovert.BankApp.CLI
                                         List<Transaction> transactions = transactionService.GetTransactions(BankName, AccountId, password);
                                         foreach (Transaction transaction in transactions)
                                         {
-                                            Console.WriteLine(transaction.Id + " " + transaction.Type + " " + transaction.Amount + " " + transaction.On);
+                                            Console.WriteLine(transaction.TransactionId + " " + transaction.Type + " " + transaction.Amount + " " + transaction.On);
                                         }
                                     }
                                     catch (Exception ex)
@@ -281,7 +281,7 @@ namespace Technovert.BankApp.CLI
                                         List<Transaction> transactions = transactionService.GetTransactions(bankname, senderAccountId, password);
                                         foreach (Transaction transaction in transactions)
                                         {
-                                            Console.WriteLine(transaction.Id + " " + transaction.Type + " " + transaction.Amount + " " + transaction.On);
+                                            Console.WriteLine(transaction.TransactionId + " " + transaction.Type + " " + transaction.Amount + " " + transaction.On);
                                         }
                                     }
                                     catch (Exception ex)

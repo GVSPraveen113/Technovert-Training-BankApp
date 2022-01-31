@@ -77,3 +77,5 @@ namespace Technovert.BankApp.API.Controllers
         }
     }
 }
+//Fluent Validations
+//Filters and MiddleWares

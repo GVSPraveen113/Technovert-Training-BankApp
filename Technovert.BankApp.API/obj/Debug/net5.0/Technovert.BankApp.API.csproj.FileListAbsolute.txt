@@ -64,3 +64,4 @@ F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.API\bin\Deb
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.API\bin\Debug\net5.0\Microsoft.Extensions.Options.dll
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.API\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
 F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.API\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
+F:\Visual Studio Code Projects\Technovert.BankApp\Technovert.BankApp.API\obj\Debug\net5.0\Technovert.BankApp.API.csproj.CopyComplete
